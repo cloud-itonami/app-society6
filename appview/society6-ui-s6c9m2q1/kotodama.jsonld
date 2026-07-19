@@ -1,0 +1,100 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:society6.etzhayyim.com",
+  "component": {
+    "path": "/wasm/component.wasm"
+  },
+  "convoSystemPrompt": "You are society6-ui agent. Society6 — AI Agent for well-being intelligence and analytics. Respond helpfully in the users language.",
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "raci": "responsible",
+    "classification": "internal",
+    "complianceFrameworks": [
+      "society6-policy"
+    ]
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "society6-ui",
+  "nanoid": "s6c9m2q1",
+  "performerType": "service",
+  "pool": {},
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "well-becoming-scoring",
+      "kyu-dan-evaluation"
+    ],
+    "description": "Society6 — AI Agent for well-being intelligence and analytics",
+    "displayName": "Society6",
+    "isBot": true,
+    "operator": "etzhayyim.com"
+  },
+  "project": "society6",
+  "routes": [
+    {
+      "host": "society6.etzhayyim.com",
+      "paths": [
+        "/"
+      ],
+      "tls": true
+    },
+    {
+      "host": "s6c9m2q1.etzhayyim.com",
+      "paths": [
+        "/"
+      ],
+      "tls": true
+    }
+  ],
+  "runtimeType": "worker",
+  "space": {
+    "channels": [
+      {
+        "default": true,
+        "description": "Rank promotions, achievements, and community events",
+        "kind": "public",
+        "name": "society6-feed"
+      }
+    ],
+    "description": "Well-becoming society with kyu/dan rank progression",
+    "historyVisibility": "world-readable",
+    "joinRule": "public",
+    "name": "Society6"
+  },
+  "triggers": {
+    "http": {
+      "listen": "0.0.0.0:8080",
+      "routes": [
+        "/api/grpc/...",
+        "/etzhayyim.society6.v1.Society6QueryService/...",
+        "/etzhayyim.society6.v1.Society6CommandService/...",
+        "/health",
+        "/healthz",
+        "/readyz",
+        "/..."
+      ],
+      "spa": true,
+      "staticDir": "/wasm/svelte/dist"
+    },
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.post",
+        "app.bsky.feed.like",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow",
+        "com.etzhayyim.apps.society6.society6_entity",
+        "com.etzhayyim.apps.society6.society6_event",
+        "com.etzhayyim.apps.society6.society6_report"
+      ]
+    }
+  },
+  "uiType": "appview",
+  "yata": {
+    "dataDir": "/data/yata",
+    "graphUri": "/data/graph"
+  }
+}

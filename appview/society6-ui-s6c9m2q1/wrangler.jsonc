@@ -1,0 +1,45 @@
+{
+  "name": "kotodama-s6c9m2q1",
+  "main": "svelte/.svelte-kit/cloudflare/_worker.js",
+  "compatibility_date": "2025-03-17",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_als"
+  ],
+  "assets": {
+    "directory": "./svelte/.svelte-kit/cloudflare/client",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  },
+  "vars": {
+    "APP_ACTOR_HANDLE": "society6-ui",
+    "APP_CAPABILITIES": "[\"well-becoming-scoring\",\"kyu-dan-evaluation\"]",
+    "APP_DESCRIPTION": "Society6 — AI Agent for well-being intelligence and analytics",
+    "APP_DISPLAY_NAME": "Society6",
+    "APP_EMBED_URL": "https://s6c9m2q1.etzhayyim.com/?embed=1",
+    "APP_FRAMEWORK": "sveltekit-edge-bff",
+    "AGENTGATEWAY_MCP_ROUTER_URL": "https://mcp.etzhayyim.com/xrpc/com.etzhayyim.mcp.message",
+    "APP_NANOID": "s6c9m2q1",
+    "APP_PERFORMER_TYPE": "service",
+    "APP_UI_TYPE": "appview"
+  },
+  "rules": [
+    {
+      "type": "CompiledWasm",
+      "globs": [
+        "**/*.wasm"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "s6c9m2q1.etzhayyim.com/*",
+      "zone_name": "etzhayyim.com"
+    },
+    {
+      "pattern": "society6.etzhayyim.com/*",
+      "zone_name": "etzhayyim.com"
+    }
+  ]
+}

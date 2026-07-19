@@ -1,0 +1,48 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Project",
+  "name": "Society6 Access Portal and Policy Manifesto",
+  "status": "In Progress",
+  "identifier": "etzhayyim-project-society6",
+  "description": "Public portal at society6.etzhayyim.com that aggregates access to COFOG wasm components and publishes Society6 policy proposals and implementation principles.",
+  "url": "https://society6.etzhayyim.com",
+  "hasPart": [
+    {
+      "@type": "WebApplication",
+      "name": "Society6 Portal",
+      "url": "https://society6.etzhayyim.com"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "society6-ui-s6c9m2q1",
+      "description": "SpinApp static component delivering the Society6 portal and COFOG access index.",
+      "url": "projects/etzhayyim-project-society6/wasm/society6-ui-s6c9m2q1"
+    }
+  ],
+  "isRelatedTo": [
+    {
+      "@type": "Project",
+      "@id": "urn:etzhayyim:project:etzhayyim-project-conversion",
+      "name": "Society6 Membership Conversion",
+      "description": "Oath/KYC/blockchain attestation for Society6 membership."
+    }
+  ],
+  "tasks": [
+    {
+      "status": "completed",
+      "task": "Define Society6 portal requirements and COFOG access scope."
+    },
+    {
+      "status": "completed",
+      "task": "Implement SpinApp static component using etzhayyim-static-site."
+    },
+    {
+      "status": "in_progress",
+      "task": "Publish society6.etzhayyim.com route and verify production access."
+    },
+    {
+      "status": "in_progress",
+      "task": "Integrate membership conversion (oath/KYC/blockchain) via etzhayyim-project-conversion."
+    }
+  ]
+}
