@@ -1,6 +1,8 @@
-# etzhayyim-project-society6
+# app-society6
 
 COFOG wasm components のアクセスポータルと、Society6 向け提言・思想をまとめた公開サイトです。
+
+Repository ownership is `cloud-itonami`, colocated with the `cloud-itonami/society6` actor. The existing `society6.etzhayyim.com` deployment identity is preserved.
 
 - Public URL: `https://society6.etzhayyim.com`
 - Runtime: App component
