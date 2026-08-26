@@ -7,15 +7,16 @@ COFOG（政府機能分類）サービスカタログと、5 軸の well-becomin
 
 **まず読むもの: [`docs/operator-quickstart.md`](docs/operator-quickstart.md)。**
 この repo は旧 `etzhayyim-root` monorepo からそのまま切り出した seed なので、
-3 つある tree のうち単体で動くのは 1 つだけです。quickstart はどれが動きどれが
-動かないかを、実際に踏んだコマンドと実測のエラーで書いてあります。
+3 つある tree のうち単体で動くのは今 2 つです（`svelte/` → `cljs/` 移行、
+2026-08-26）。quickstart はどれが動きどれが動かないかを、実際に踏んだコマンドと
+実測のエラーで書いてあります。
 
 ## 中身
 
 | path | 中身 | 単体で動くか |
 |---|---|---|
 | `kotoba/` | COFOG カタログ + well-becoming スコアの registry（TypeScript / vitest、8 tests） | **動く** |
-| `appview/society6-ui-s6c9m2q1/svelte/` | SvelteKit portal（`society6.etzhayyim.com` に配信） | 動かない（workspace 兄弟 `@etzhayyim/design-system` が無い） |
+| `appview/society6-ui-s6c9m2q1/cljs/` | フロントエンド（ClojureScript / shadow-cljs / reagent + re-frame + jp-go-dds、`society6.etzhayyim.com` に配信）。2026-08-26 に旧 `svelte/`（SvelteKit portal、workspace 兄弟 `@etzhayyim/design-system` 不在で単体では動かなかった）から移行 | **動く** |
 | `appview/society6-ui-s6c9m2q1/src/app.ts` | Cloudflare Worker entry（726 行） | 動かない（`@etzhayyim/kotodama-host-sdk` を宣言する package.json がこの repo に無い） |
 
 `kotoba/` だけがテストを持つので、信号のある変更ができるのはそこです。
@@ -38,8 +39,8 @@ cd kotoba && npm install && npm test     # → 8 passed
 
 ## COFOG directory summary（現状は凍結）
 
-- 生成物: `appview/society6-ui-s6c9m2q1/svelte/static/data/cofog-directory-summary.json`
-  （と `static/data/` 側の同期コピー）
+- 生成物: `appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json`
+  （旧 `svelte/static/data/` 側の同期コピーは svelte 削除に伴い消滅済み）
 - 生成器: `appview/society6-ui-s6c9m2q1/scripts/generate_cofog_directory_summary.sh`
 
 **この生成器はこの repo では走りません。** 入力を旧 monorepo の
@@ -51,9 +52,14 @@ cd kotoba && npm install && npm test     # → 8 passed
 ## Deploy
 
 `appview/society6-ui-s6c9m2q1/wrangler.jsonc` が `society6.etzhayyim.com` /
-`s6c9m2q1.etzhayyim.com` を向いています。ただし `main` が指すのは SvelteKit の
-ビルド生成物なので、上記のとおり**この repo は今そのビルドを作れません**。
-live の配信物は別の場所で作られたものです。
+`s6c9m2q1.etzhayyim.com` を向いています。⚠ **`main` は今も
+`svelte/.svelte-kit/cloudflare/_worker.js` を指したままで、この svelte 移行
+（2026-08-26）ではあえて触っていません**（frontend-only scope。backend の
+Worker entry / deploy 設定は対象外）。その svelte tree はもう存在しないので、
+この設定は今なお指す先を持てません。`cljs/` 側は独立してビルドできる
+（`npm install && npm run build` → `public/js/app.js`）ので、実際にこの Worker
+へ配信を繋ぎ直す（`main` / `assets.directory` を `cljs/public` へ向ける）のは
+別途のデプロイ判断です。live の配信物は別の場所で作られたものです。
 
 ## 未了
 

@@ -8,17 +8,20 @@ Society6 static portal component。COFOG components portal と Society6 の提�
 
 ## UI source
 
-- Svelte source: `svelte/`
+- ClojureScript source (reagent + re-frame + jp-go-dds): `cljs/`
 - Runtime static assets: `static/`
 
-⚠ `svelte/` はこの repo 単体では install できません（`@etzhayyim/design-system`
-が `workspace:*` 指定で、workspace root もそのパッケージもこの repo に無い）。
-実測のエラーと切り分けは [`../../docs/operator-quickstart.md`](../../docs/operator-quickstart.md)。
+`svelte/` was migrated away (2026-08-26): it never installed in this repo
+(`@etzhayyim/design-system` was `workspace:*` with no workspace root or such
+package present — see the frozen error in the old
+[`../../docs/operator-quickstart.md`](../../docs/operator-quickstart.md)
+history). `cljs/` has no such problem — `jp-go-dds` is a plain git dep, not a
+workspace sibling — and builds standing alone with `shadow-cljs compile app`.
 
 ## COFOG directory summary
 
-- 生成物: `svelte/static/data/cofog-directory-summary.json`
-  （`static/data/` にも同じものが同期されています）
+- 生成物: `static/data/cofog-directory-summary.json`
+  （旧 `svelte/static/data/` 側の同期コピーは svelte 削除に伴い消滅済み）
 - 生成器: `scripts/generate_cofog_directory_summary.sh`
 
 ⚠ **この生成器はこの repo では走りません。** `projects/etzhayyim-project-cofog/wasm`
