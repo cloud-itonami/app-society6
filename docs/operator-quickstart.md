@@ -5,16 +5,26 @@ Every command below was run end to end in a clean checkout of `main`
 **not** work, the measured error is quoted rather than described, so you can
 tell "I hit the known wall" apart from "I broke it".
 
+**2026-08-26 update**: the SvelteKit tree this section originally described
+(`appview/society6-ui-s6c9m2q1/svelte/`) has been migrated to ClojureScript
+(`appview/society6-ui-s6c9m2q1/cljs/`, reagent + re-frame + jp-go-dds, built
+with shadow-cljs) and deleted. Unlike the Svelte tree, `cljs/` has no
+workspace-sibling dependency and builds standing alone in this repo — see the
+`cljs/` row below and its own README-equivalent docstring in
+`src/society6/app.cljs`. The rest of this quickstart (the `kotoba/` walkthrough
+and the two known-broken trees) is unchanged and still measured against the
+same checkout.
+
 ## What is actually runnable in this repo
 
 `app-society6` is a transfer seed seeded verbatim from the old
 `etzhayyim-root` monorepo, so most of its paths still point at that monorepo.
-Only one of the three trees builds standing alone:
+Two of the three trees now build standing alone:
 
 | tree | what it is | runnable here? |
 |---|---|---|
 | `kotoba/` | the COFOG catalog + well-becoming score registry (TypeScript, vitest) | **yes** — this quickstart |
-| `appview/society6-ui-s6c9m2q1/svelte/` | SvelteKit portal, deployed to `society6.etzhayyim.com` | **no** — missing workspace sibling, see below |
+| `appview/society6-ui-s6c9m2q1/cljs/` | ClojureScript frontend (reagent + re-frame + jp-go-dds), deployed to `society6.etzhayyim.com` | **yes** — `npm install && npm run build` (shadow-cljs), no workspace-sibling problem |
 | `appview/society6-ui-s6c9m2q1/src/app.ts` | 726-line Cloudflare Worker entry | **no** — its SDK is declared in no `package.json` here |
 
 `kotoba/` is the part with a test suite, so it is the part you can change with
@@ -140,23 +150,27 @@ Measured, not guessed — each of these was probed the same way as step 4.
 Do not spend time on these until the missing pieces arrive; each failure below
 is reproducible today.
 
-**The SvelteKit portal** (`appview/society6-ui-s6c9m2q1/svelte/`) declares
-`"@etzhayyim/design-system": "workspace:*"`, and this repo has no
-`pnpm-workspace.yaml` and no such package:
+**The SvelteKit portal no longer exists.** It used to sit at
+`appview/society6-ui-s6c9m2q1/svelte/` and declared
+`"@etzhayyim/design-system": "workspace:*"`, which this repo could never
+resolve (no `pnpm-workspace.yaml`, no such package — `pnpm install` failed
+with `ERR_PNPM_WORKSPACE_PKG_NOT_FOUND`, and its `pnpm-lock.yaml` was also out
+of date with its own `package.json`, so `--frozen-lockfile` failed first with
+`ERR_PNPM_OUTDATED_LOCKFILE`). It was migrated to
+`appview/society6-ui-s6c9m2q1/cljs/` on 2026-08-26 (ClojureScript, reagent +
+re-frame + jp-go-dds, shadow-cljs) precisely because the new tree has no such
+workspace-sibling dependency:
 
 ```
-ERR_PNPM_WORKSPACE_PKG_NOT_FOUND  "@etzhayyim/design-system@workspace:*" is in
-the dependencies but no package named "@etzhayyim/design-system" is present in
-the workspace
+cd appview/society6-ui-s6c9m2q1/cljs
+npm install
+npm run build   # shadow-cljs compile app → public/js/app.js
+npm test        # shadow-cljs compile test && node out/tests.js
 ```
-
-Its `pnpm-lock.yaml` is also out of date with its own `package.json` (5 deps
-added, 1 removed, 6 mismatched), so `pnpm install --frozen-lockfile` fails
-first with `ERR_PNPM_OUTDATED_LOCKFILE`.
 
 **The Worker entry** `appview/society6-ui-s6c9m2q1/src/app.ts` imports
 `@etzhayyim/kotodama-host-sdk`, which appears in **no** `package.json` in this
-repo (there are exactly two: `kotoba/` and `.../svelte/`). There is no build
+repo (there are exactly two: `kotoba/` and `.../cljs/`). There is no build
 that includes this file. Note also that it calls `createKyselyDb()` at line
 112 — a centralized-SQL path that `MIGRATION-TODO.md` still lists as unchecked.
 The scan note in that file saying Kysely was "NOT detected" is literally true
@@ -181,8 +195,13 @@ cannot be regenerated in this repo. Do not treat them as current.
 ## Deploy
 
 `appview/society6-ui-s6c9m2q1/wrangler.jsonc` targets
-`society6.etzhayyim.com` and `s6c9m2q1.etzhayyim.com`, with
-`main` pointing at `svelte/.svelte-kit/cloudflare/_worker.js` — a build
-artifact of the SvelteKit tree above. **Since that tree does not install here,
-this repo cannot currently produce the artifact it deploys.** The live site is
-served from a build made elsewhere.
+`society6.etzhayyim.com` and `s6c9m2q1.etzhayyim.com`, with `main` still
+pointing at `svelte/.svelte-kit/cloudflare/_worker.js` — a build artifact of
+the SvelteKit tree that has since been deleted (migrated to `cljs/`,
+2026-08-26). This migration deliberately left `wrangler.jsonc` untouched
+(frontend-only scope; the Worker entry / deploy config is backend). **So this
+repo cannot currently produce the artifact `main` names, and now not because
+the tree fails to install but because the tree is gone.** Re-pointing
+`main` / `assets.directory` at the new `cljs/public` build output is a
+follow-up deploy decision, not done here. The live site is served from a
+build made elsewhere.
