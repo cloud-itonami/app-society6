@@ -1,13 +1,12 @@
 {
   "name": "kotodama-s6c9m2q1",
-  "main": "svelte/.svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2025-03-17",
   "compatibility_flags": [
     "nodejs_compat",
     "nodejs_als"
   ],
   "assets": {
-    "directory": "./svelte/.svelte-kit/cloudflare/client",
+    "directory": "./cljs/public",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "single-page-application"
@@ -18,7 +17,7 @@
     "APP_DESCRIPTION": "Society6 — AI Agent for well-being intelligence and analytics",
     "APP_DISPLAY_NAME": "Society6",
     "APP_EMBED_URL": "https://s6c9m2q1.etzhayyim.com/?embed=1",
-    "APP_FRAMEWORK": "sveltekit-edge-bff",
+    "APP_FRAMEWORK": "cljs-reagent-re-frame-jp-go-dds",
     "AGENTGATEWAY_MCP_ROUTER_URL": "https://mcp.etzhayyim.com/xrpc/com.etzhayyim.mcp.message",
     "APP_NANOID": "s6c9m2q1",
     "APP_PERFORMER_TYPE": "service",
