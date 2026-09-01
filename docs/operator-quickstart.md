@@ -125,6 +125,70 @@ git checkout -- kotoba/src/types.ts
 cd kotoba && npm test; cd ..
 ```
 
+## 5. Check the frozen COFOG artifacts
+
+This one needs no install, no network and no JVM -- just `nbb`:
+
+```bash
+nbb test/cofog_artifact_test.cljs
+```
+
+```
+SCANNED	directories=102	groups=11	components=101	excluded=1
+cofog-artifact-check: OK
+```
+
+It reads the two generated files under
+`appview/society6-ui-s6c9m2q1/static/data/` and asks whether they still
+describe each other: that the rollup's `totals` and `groups[]` match the
+`directories` list they summarise, that `cofog-components.json` names exactly
+the in-portal directories, that no two COFOG codes collapse to one
+`cofogRkey` (a collision makes `registerCofog` answer `alreadyExists` and drop
+the second service), and that the counts this file and `README.md` quote in
+prose are the counts the artifact carries.
+
+These files are the frozen snapshot described under "What is not runnable
+here" -- their generator cannot run in this repo, so the only way they change
+is a hand edit, and a hand edit that keeps valid JSON while moving a count is
+invisible to `npm run typecheck` and to the vitest suite alike.
+
+Prove it can fail:
+
+```bash
+perl -0pi -e 's/"directories": 102/"directories": 101/' \
+  appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
+nbb test/cofog_artifact_test.cljs; echo "exit=$?"
+git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
+```
+
+Expect exit 1 and four lines naming what moved -- the rollup, the per-group
+sum, and both files whose prose quotes the count:
+
+```
+SCANNED	directories=102	groups=11	components=101	excluded=1
+FAIL summary-total-directories-matches-the-list: totals.directories=101 but directories[] has 102
+FAIL group-counts-sum-to-total-directories: groups[].count sums to 102 but totals.directories is 101
+FAIL prose-quotes-the-directory-count-in-the-artifact: README.md describes the frozen snapshot but does not say "101 directories", which is what appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json now says
+FAIL prose-quotes-the-directory-count-in-the-artifact: docs/operator-quickstart.md describes the frozen snapshot but does not say "101 directories", which is what appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json now says
+cofog-artifact-check: 4 invariant(s) violated
+```
+
+And prove it refuses rather than passing when it cannot measure -- an empty
+artifact satisfies every count it checks:
+
+```bash
+: > appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
+nbb test/cofog_artifact_test.cljs; echo "exit=$?"
+git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
+```
+
+Expect exit **2**, not 1 and not 0:
+
+```
+REFUSED appview/society6-ui-s6c9m2q1/static/data/cofog-components.json is empty
+cofog-artifact-check: no claim made — the inputs could not be read.
+```
+
 ## What these checks do not cover
 
 Measured, not guessed — each of these was probed the same way as step 4.
@@ -188,9 +252,15 @@ here. It exits 1 with:
 find: .../projects/etzhayyim-project-cofog/wasm: No such file or directory
 ```
 
-So the two committed `cofog-directory-summary.json` files are a frozen
-snapshot (`"generatedAt": "2026-02-22T09:48:13Z"`, 102 directories) that
-cannot be regenerated in this repo. Do not treat them as current.
+So the committed `cofog-directory-summary.json` is a frozen snapshot
+(`"generatedAt": "2026-02-22T09:48:13Z"`, 102 directories) that cannot be
+regenerated in this repo. Do not treat it as current. (This said "the two
+committed ... files" until 2026-09-01; the second copy lived under the
+SvelteKit tree and went away with it on 2026-08-26.)
+
+`test/cofog_artifact_test.cljs` holds that snapshot and
+`cofog-components.json` to each other -- see "5. Check the frozen COFOG
+artifacts" above.
 
 ## Deploy
 

@@ -19,11 +19,25 @@ COFOG（政府機能分類）サービスカタログと、5 軸の well-becomin
 | `appview/society6-ui-s6c9m2q1/cljs/` | フロントエンド（ClojureScript / shadow-cljs / reagent + re-frame + jp-go-dds、`society6.etzhayyim.com` に配信）。2026-08-26 に旧 `svelte/`（SvelteKit portal、workspace 兄弟 `@etzhayyim/design-system` 不在で単体では動かなかった）から移行 | **動く** |
 | `appview/society6-ui-s6c9m2q1/src/app.ts` | Cloudflare Worker entry（726 行） | 動かない（`@etzhayyim/kotodama-host-sdk` を宣言する package.json がこの repo に無い） |
 
-`kotoba/` だけがテストを持つので、信号のある変更ができるのはそこです。
+テストを持つ tree は `kotoba/`（vitest、8 tests）と
+`appview/society6-ui-s6c9m2q1/cljs/`（shadow-cljs node-test）で、どちらも
+install を要します。install も network も要らない検査が 1 本、repo 直下に
+あります。
 
 ```bash
+nbb test/cofog_artifact_test.cljs        # → cofog-artifact-check: OK
 cd kotoba && npm install && npm test     # → 8 passed
 ```
+
+`test/cofog_artifact_test.cljs` は下の「COFOG directory summary」の凍結
+スナップショットと `cofog-components.json` を突き合わせます（rollup が自分の
+`directories` 一覧と一致するか、components が in-portal の directory と過不足なく
+一致するか、2 つの COFOG コードが同じ `cofogRkey` に潰れていないか、そして
+この README と quickstart が本文で引用している件数・日付が artifact の値と
+一致するか）。**入力が読めないときは 0 でも 1 でもなく exit 2 を返します** ——
+空の artifact は数の等式を全部満たしてしまうので、それを「検査して問題なし」と
+区別できなければ意味がありません。手順と、赤くする方法は
+`docs/operator-quickstart.md` の 5 節。
 
 ## データの分割（`kotoba/src/types.ts`）
 
