@@ -25,7 +25,7 @@ install を要します。install も network も要らない検査が 1 本、r
 あります。
 
 ```bash
-nbb test/cofog_artifact_test.cljk        # → cofog-artifact-check: OK
+kbb --backend sci test/cofog_artifact_test.cljk        # → cofog-artifact-check: OK
 cd kotoba && npm install && npm test     # → 8 passed
 ```
 

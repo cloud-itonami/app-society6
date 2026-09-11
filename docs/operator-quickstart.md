@@ -130,7 +130,7 @@ cd kotoba && npm test; cd ..
 This one needs no install, no network and no JVM -- just `nbb`:
 
 ```bash
-nbb test/cofog_artifact_test.cljk
+kbb --backend sci test/cofog_artifact_test.cljk
 ```
 
 ```
@@ -157,7 +157,7 @@ Prove it can fail:
 ```bash
 perl -0pi -e 's/"directories": 102/"directories": 101/' \
   appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
-nbb test/cofog_artifact_test.cljk; echo "exit=$?"
+kbb --backend sci test/cofog_artifact_test.cljk; echo "exit=$?"
 git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
 ```
 
@@ -178,7 +178,7 @@ artifact satisfies every count it checks:
 
 ```bash
 : > appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
-nbb test/cofog_artifact_test.cljk; echo "exit=$?"
+kbb --backend sci test/cofog_artifact_test.cljk; echo "exit=$?"
 git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
 ```
 
@@ -228,8 +228,8 @@ workspace-sibling dependency:
 ```
 cd appview/society6-ui-s6c9m2q1/cljs
 npm install
-npm run build   # shadow-cljs compile app → public/js/app.js
-npm test        # shadow-cljs compile test && node out/tests.js
+npm run build   # amu compile --target wasm32-browser app → public/js/app.js
+npm test        # amu compile --target wasm32-browser test && node out/tests.js
 ```
 
 **The Worker entry** `appview/society6-ui-s6c9m2q1/src/app.ts` imports

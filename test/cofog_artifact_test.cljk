@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; test/cofog_artifact_test.cljk — do the two committed COFOG artifacts still
 ;; describe each other, and the catalog the registry keys records by?
 ;;
@@ -62,7 +62,7 @@
 ;;
 ;; Nothing here touches the network, npm, or a browser.
 ;;
-;; Usage:  nbb test/cofog_artifact_test.cljk
+;; Usage:  kbb --backend sci test/cofog_artifact_test.cljk
 
 (ns cofog-artifact-test
   (:require ["node:fs" :as fs]

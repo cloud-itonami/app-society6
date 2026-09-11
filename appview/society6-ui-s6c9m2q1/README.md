@@ -16,7 +16,7 @@ Society6 static portal component。COFOG components portal と Society6 の提�
 package present — see the frozen error in the old
 [`../../docs/operator-quickstart.md`](../../docs/operator-quickstart.md)
 history). `cljs/` has no such problem — `jp-go-dds` is a plain git dep, not a
-workspace sibling — and builds standing alone with `shadow-cljs compile app`.
+workspace sibling — and builds standing alone with `amu compile --target wasm32-browser app`.
 
 ## COFOG directory summary
 
