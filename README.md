@@ -25,11 +25,11 @@ install を要します。install も network も要らない検査が 1 本、r
 あります。
 
 ```bash
-nbb test/cofog_artifact_test.cljs        # → cofog-artifact-check: OK
+nbb test/cofog_artifact_test.cljk        # → cofog-artifact-check: OK
 cd kotoba && npm install && npm test     # → 8 passed
 ```
 
-`test/cofog_artifact_test.cljs` は下の「COFOG directory summary」の凍結
+`test/cofog_artifact_test.cljk` は下の「COFOG directory summary」の凍結
 スナップショットと `cofog-components.json` を突き合わせます（rollup が自分の
 `directories` 一覧と一致するか、components が in-portal の directory と過不足なく
 一致するか、2 つの COFOG コードが同じ `cofogRkey` に潰れていないか、そして

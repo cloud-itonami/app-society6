@@ -130,7 +130,7 @@ cd kotoba && npm test; cd ..
 This one needs no install, no network and no JVM -- just `nbb`:
 
 ```bash
-nbb test/cofog_artifact_test.cljs
+nbb test/cofog_artifact_test.cljk
 ```
 
 ```
@@ -157,7 +157,7 @@ Prove it can fail:
 ```bash
 perl -0pi -e 's/"directories": 102/"directories": 101/' \
   appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
-nbb test/cofog_artifact_test.cljs; echo "exit=$?"
+nbb test/cofog_artifact_test.cljk; echo "exit=$?"
 git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-directory-summary.json
 ```
 
@@ -178,7 +178,7 @@ artifact satisfies every count it checks:
 
 ```bash
 : > appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
-nbb test/cofog_artifact_test.cljs; echo "exit=$?"
+nbb test/cofog_artifact_test.cljk; echo "exit=$?"
 git checkout -- appview/society6-ui-s6c9m2q1/static/data/cofog-components.json
 ```
 
@@ -258,7 +258,7 @@ regenerated in this repo. Do not treat it as current. (This said "the two
 committed ... files" until 2026-09-01; the second copy lived under the
 SvelteKit tree and went away with it on 2026-08-26.)
 
-`test/cofog_artifact_test.cljs` holds that snapshot and
+`test/cofog_artifact_test.cljk` holds that snapshot and
 `cofog-components.json` to each other -- see "5. Check the frozen COFOG
 artifacts" above.
 
