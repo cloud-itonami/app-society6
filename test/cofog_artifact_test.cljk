@@ -1,5 +1,5 @@
 #!/usr/bin/env nbb
-;; test/cofog_artifact_test.cljs — do the two committed COFOG artifacts still
+;; test/cofog_artifact_test.cljk — do the two committed COFOG artifacts still
 ;; describe each other, and the catalog the registry keys records by?
 ;;
 ;; The frontend serves two generated files out of
@@ -62,7 +62,7 @@
 ;;
 ;; Nothing here touches the network, npm, or a browser.
 ;;
-;; Usage:  nbb test/cofog_artifact_test.cljs
+;; Usage:  nbb test/cofog_artifact_test.cljk
 
 (ns cofog-artifact-test
   (:require ["node:fs" :as fs]
@@ -70,7 +70,7 @@
             [clojure.string :as str]))
 
 (def root
-  (path/resolve (path/dirname (or js/__filename "test/cofog_artifact_test.cljs")) ".."))
+  (path/resolve (path/dirname (or js/__filename "test/cofog_artifact_test.cljk")) ".."))
 
 (def data-dir "appview/society6-ui-s6c9m2q1/static/data")
 (def summary-rel (str data-dir "/cofog-directory-summary.json"))
