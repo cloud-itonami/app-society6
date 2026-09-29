@@ -168,7 +168,7 @@ export interface RankTier {
   minScore: number;
 }
 
-// Kyu 6 (白) → Kyu 1 (茶) → Dan 1..10 (黒). Min scores from CLAUDE.md ladder.
+// Kyu 6 (白) → Kyu 1 (茶) → Dan 1..10 (黒). Min scores from AGENTS.md ladder.
 export const RANK_LADDER: RankTier[] = [
   { rank: -6, display: "Kyu 6", color: "#FFFFFF", minScore: 0 },
   { rank: -5, display: "Kyu 5", color: "#FFD700", minScore: 100 },
